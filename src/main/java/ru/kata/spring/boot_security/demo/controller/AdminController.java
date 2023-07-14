@@ -2,11 +2,14 @@ package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.validator.UserValidator;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 
@@ -17,9 +20,12 @@ public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
 
-    public AdminController(UserService userService, RoleService roleService) {
+    private final UserValidator userValidator;
+
+    public AdminController(UserService userService, RoleService roleService, UserValidator userValidator) {
         this.userService = userService;
         this.roleService = roleService;
+        this.userValidator = userValidator;
     }
 
     @GetMapping()
@@ -32,13 +38,21 @@ public class AdminController {
     }
 
     @PostMapping("/addNewUser")
-    public String saveUser(@ModelAttribute("user") User user) {
+    public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult result) {
+        userValidator.validate(user, result);
+        if (result.hasErrors()) {
+            return "redirect:/admin";
+        }
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
     @PatchMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") long id, @ModelAttribute("user") User user) {
+    public String updateUser(@PathVariable("id") long id, @ModelAttribute("user") @Valid User user, BindingResult result) {
+        userValidator.validate(user, result);
+        if (result.hasErrors()) {
+            return "redirect:/admin";
+        }
         userService.updateUser(user);
         return "redirect:/admin";
     }

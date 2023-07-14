@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.entity;
 
 import javax.persistence.*;
+
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -21,6 +23,7 @@ public class User implements UserDetails {
     @Column
     private int age;
     @Column(unique=true)
+//    @NotEmpty(message = "This email is already in use. Please enter another.")
     private String email;
     @Column
     private String password;
