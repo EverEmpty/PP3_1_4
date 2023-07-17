@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
-import ru.kata.spring.boot_security.demo.validator.UserValidator;
-
-import javax.validation.Valid;
 import java.security.Principal;
 
 
@@ -20,12 +17,10 @@ public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
 
-    private final UserValidator userValidator;
 
-    public AdminController(UserService userService, RoleService roleService, UserValidator userValidator) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.userValidator = userValidator;
     }
 
     @GetMapping()
@@ -38,21 +33,15 @@ public class AdminController {
     }
 
     @PostMapping("/addNewUser")
-    public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult result) {
-        userValidator.validate(user, result);
-        if (result.hasErrors()) {
-            return "redirect:/admin";
-        }
+    public String saveUser(@ModelAttribute("user")User user, BindingResult result) {
+
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
     @PatchMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") long id, @ModelAttribute("user") @Valid User user, BindingResult result) {
-        userValidator.validate(user, result);
-        if (result.hasErrors()) {
-            return "redirect:/admin";
-        }
+    public String updateUser(@PathVariable("id") long id, @ModelAttribute("user")User user, BindingResult result) {
+
         userService.updateUser(user);
         return "redirect:/admin";
     }

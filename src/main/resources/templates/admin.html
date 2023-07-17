@@ -299,7 +299,6 @@
                                             <label for="newEmail"><strong>Email</strong></label>
                                             <input type="email" class="form-control"
                                                    id="newEmail" name="email" th:field="${newUser.email}">
-                                            <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></p>
                                         </div>
                                         <div class="form-group">
                                             <label for="newPassword"><strong>Password</strong></label>
