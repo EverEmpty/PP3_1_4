@@ -25,7 +25,7 @@ public class AdminController {
 
     @GetMapping()
     public String adminPage(Model model, Principal principal) {
-        model.addAttribute("authUser", userService.getUserByName(principal.getName()));
+        model.addAttribute("authUser", userService.getUserByEmail(principal.getName()));
         model.addAttribute("users", userService.userList());
         model.addAttribute("newUser", new User());
         model.addAttribute("roles", roleService.roleList());

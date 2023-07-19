@@ -59,12 +59,6 @@ public class UserServiceImpl implements UserService{
 
     @Transactional(readOnly = true)
     @Override
-    public User getUserByName(String name) {
-        return userRepository.findByName(name);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }

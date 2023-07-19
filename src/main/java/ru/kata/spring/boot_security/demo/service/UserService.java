@@ -18,7 +18,5 @@ public interface UserService extends UserDetailsService {
 
     Optional<User> getUserById(long id);
 
-    User getUserByName(String name);
-
     User getUserByEmail(String email);
 }

@@ -21,8 +21,8 @@ public class UserController {
     @GetMapping
     public String getUsers(Model model, Principal principal) {
         model.addAttribute("user", userService.userList());
-        model.addAttribute("authUser", userService.getUserByName(principal.getName()));
-        model.addAttribute("authRoles", userService.getUserByName(principal.getName()).getRoles());
+        model.addAttribute("authUser", userService.getUserByEmail(principal.getName()));
+        model.addAttribute("authRoles", userService.getUserByEmail(principal.getName()).getRoles());
         return "user";
     }
 }
